@@ -1,0 +1,81 @@
+use util::prelude::*;
+
+use crate::prelude::*;
+use crate::prelude::object::ConnectFlags;
+
+#[derive(GodotClass)]
+#[class(init, base = Node)]
+pub struct DisallowClickFocusOnParent { 
+	base: Base<Node>,
+}
+
+fn is_mouse_pressed(event: Gd<InputEvent>) -> bool {
+	return event.try_cast::<InputEventMouseButton>().ok()
+	            .is_some_and(|event| event.is_pressed());
+}
+
+#[godot_api]
+impl INode for DisallowClickFocusOnParent {
+	fn ready(&mut self) {
+		let Some(parent) = &mut self.base().get_parent() 
+			else { return godot_error!("{}(): Node `{}` has no parent", full_fn_name(&Self::ready), self.base().get_name()) };
+		
+		let self_gd = self.to_gd();
+
+		if parent.has_signal("pressed".into()) {
+			parent.connect_ex("pressed".into(), Callable::from_object_method(&self_gd, "_on_pressed"))
+			      .flags(ConnectFlags::DEFERRED.ord() as u32)
+				  .done();
+		} else if parent.has_signal("gui_input".into()) {
+			parent.connect_ex("gui_input".into(), Callable::from_object_method(&self_gd, "_on_gui_input"))
+				  .flags(ConnectFlags::DEFERRED.ord() as u32)
+				  .done();
+		} else if parent.has_signal("input_event".into()) {
+			parent.connect_ex("input_event".into(), Callable::from_object_method(&self_gd, "_on_input_event"))
+				  .flags(ConnectFlags::DEFERRED.ord() as u32)
+				  .done();
+		} else {
+			godot_warn!("{}():\n\
+			 Node `{}` cannot connect to it's parent `{}`\n\
+			 Parent does not have any of these signals: `gui_input` | `pressed` | `input_event`",
+				full_fn_name(&Self::ready), self.base().get_name(), parent.get_name());
+		}
+	}
+}
+
+#[godot_api]
+impl DisallowClickFocusOnParent {
+	fn release_parent_focus(&self) {
+		let Some(parent) = &mut self.base().get_parent() 
+			else { return };
+		
+		if parent.has_method("release_focus".into()) {
+			parent.call_deferred("release_focus".into(), &[]);
+		} else {
+			godot_warn!("{}():\n\
+			 Node `{}` cannot release focus from it's parent `{}`\n\
+			 Parent does not have method `release_focus`",
+				full_fn_name(&Self::_on_gui_input), self.base().get_name(), parent.get_name());
+		}
+	}
+
+	#[func]
+	fn _on_gui_input(&self, event: Gd<InputEvent>) {
+		if is_mouse_pressed(event) {
+			self.release_parent_focus();
+		}
+	}
+
+	#[func]
+	fn _on_input_event(&self, _viewport: Gd<Node>, event: Gd<InputEvent>, _shape_idx: i64) {
+		if is_mouse_pressed(event) {
+			self.release_parent_focus();
+		}
+	}
+
+	#[func]
+	fn _on_pressed(&self) {
+		self.release_parent_focus();
+	}
+}
+
