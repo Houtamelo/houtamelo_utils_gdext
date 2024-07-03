@@ -36,3 +36,4 @@ target/
 test.sh
 tramp
 .history/*
+/.idea/vcs.xml
