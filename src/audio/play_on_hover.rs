@@ -50,7 +50,7 @@ impl PlayOnHoverAndPitchRandomizer {
 		let mut rng = Xoshiro256PlusPlus::from_entropy();
 		let pitch = self.original_pitch * (0.9 + rng.gen_range(0.0..=0.2));
 		
-		let base = &mut self.base_mut();
+		let mut base = self.base_mut();
 		base.set_pitch_scale(pitch);
 		base.play();
 	}

@@ -25,8 +25,8 @@ impl PitchRandomizer {
 		let mut rng = Xoshiro256PlusPlus::from_entropy();
 		let pitch = self.original_pitch * (0.9 + rng.gen_range(0.0..=0.2));
 		
-		let base_mut = &mut self.base_mut();
-		base_mut.set_pitch_scale(pitch);
-		base_mut.play();
+		let mut base = self.base_mut();
+		base.set_pitch_scale(pitch);
+		base.play();
 	}
 }
