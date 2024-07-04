@@ -3,6 +3,7 @@ mod audio;
 mod auto_text_resize;
 mod loading;
 mod connect_deferred;
+mod connect_child;
 mod node_extensions;
 
 pub mod prelude {
@@ -16,5 +17,5 @@ pub mod prelude {
 	pub use crate::loading::*;
 	pub use crate::connect_deferred::ConnectDeferred;
 	pub use crate::node_extensions::*;
-	
+	pub use crate::connect_child::ConnectChild;
 }
