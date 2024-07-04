@@ -1,39 +1,28 @@
 use util::prelude::*;
-
 use crate::prelude::*;
 
-pub trait InspectNode {
-	fn touch_node<T: GodotClass + Inherits<Node>>(
-		&self, 
-		node_path: impl Into<NodePath>, 
-		f: impl FnOnce(Gd<T>),
-	) -> Result<()>;
-}
-
-impl<TSelf: GodotClass + Inherits<Node>> InspectNode for Gd<TSelf> {
-	fn touch_node<TNode: GodotClass + Inherits<Node>>(
-		&self, 
-		node_path: impl Into<NodePath>, 
-		f: impl FnOnce(Gd<TNode>),
-	) -> Result<()> {
-		self.map_node(node_path, f)
-	}
-}
-
 pub trait MapNode {
-	fn map_node<T: GodotClass + Inherits<Node>, TMap>(
+	fn map_node<TNode, TMap>(
 		&self,
 		node_path: impl Into<NodePath>,
-		f: impl FnOnce(Gd<T>) -> TMap,
-	) -> Result<TMap>;
+		f: impl FnOnce(&mut Gd<TNode>) -> TMap,
+	) -> Result<TMap>
+		where
+			TNode: GodotClass + Inherits<Node>;
 }
 
-impl<TSelf: GodotClass + Inherits<Node>> MapNode for Gd<TSelf> {
-	fn map_node<TNode: GodotClass + Inherits<Node>, TMap>(
+impl<TSelf> MapNode for Gd<TSelf>
+	where
+		TSelf: GodotClass + Inherits<Node>
+{
+	fn map_node<TNode, TMap>(
 		&self,
 		node_path: impl Into<NodePath>,
-		f: impl FnOnce(Gd<TNode>) -> TMap,
-	) -> Result<TMap> {
+		f: impl FnOnce(&mut Gd<TNode>) -> TMap,
+	) -> Result<TMap>
+		where
+			TNode: GodotClass + Inherits<Node> 
+	{
 		let this = self.clone().upcast();
 		let path = node_path.into();
 		this.get_node_or_null(path.clone())
@@ -42,14 +31,16 @@ impl<TSelf: GodotClass + Inherits<Node>> MapNode for Gd<TSelf> {
 			    anyhow!("Node \"{self_name}\" does not have child at path \"{path}\"")
 		    })
 		    .and_then(|node| {
-			    node.try_cast()
-				    .map_err(|err| { 
-					    anyhow!(
+			    node.try_cast::<TNode>()
+			        .map_err(|err| {
+				        anyhow!(
 						    "Could not cast node to type `{ty}`\n\
 						     Path: \"{path}\"\n\
 						     Error: {err}", ty = type_name::<TNode>())
-				    })
+			        })
 		    })
-		    .map(f)
+		    .map(|mut node| {
+			    f(&mut node)
+		    })
 	}
 }
