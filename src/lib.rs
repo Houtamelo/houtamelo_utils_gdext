@@ -6,6 +6,9 @@ mod connect_deferred;
 mod connect_child;
 mod connect_with_deferred;
 mod node_extensions;
+mod lazy_string;
+mod modulate_on_hover;
+mod log_if_err;
 
 pub mod prelude {
 	pub use godot::classes::*;
@@ -20,4 +23,8 @@ pub mod prelude {
 	pub use crate::connect_deferred::ConnectDeferred;
 	pub use crate::connect_child::ConnectChild;
 	pub use crate::connect_with_deferred::ConnectWithDeferred;
+	pub use crate::lazy_string::{ConstStringName, ConstGString};
+	pub use crate::{lazy_gstring, lazy_stringname};
+	pub use crate::log_if_err::LogIfErr;
+	pub use crate::modulate_on_hover::ModulateOnHover;
 }
