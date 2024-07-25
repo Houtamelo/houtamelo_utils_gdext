@@ -1,18 +1,25 @@
 use crate::prelude::*;
 
-pub struct ConstGString(GString);
+pub struct ConstGString {
+	gstring: GString,
+	str: &'static str,
+}
 
 unsafe impl Send for ConstGString {}
 
 unsafe impl Sync for ConstGString {}
 
 impl ConstGString {
-	pub fn new(s: &str) -> Self {
-		Self(GString::from(s))
+	pub fn new(str: &'static str) -> Self {
+		Self { gstring: GString::from(str), str }
 	}
 
 	pub fn get(&self) -> GString {
-		self.0.clone()
+		self.gstring.clone()
+	}
+	
+	pub fn as_str(&self) -> &'static str {
+		self.str
 	}
 }
 
@@ -22,19 +29,26 @@ impl From<&'static str> for ConstGString {
 	}
 }
 
-pub struct ConstStringName(StringName);
+pub struct ConstStringName {
+	string_name: StringName,
+	str: &'static str,
+}
 
 unsafe impl Send for ConstStringName {}
 
 unsafe impl Sync for ConstStringName {}
 
 impl ConstStringName {
-	pub fn new(s: &str) -> Self {
-		Self(StringName::from(s))
+	pub fn new(str: &'static str) -> Self {
+		Self { string_name: StringName::from(str), str }
 	}
 
 	pub fn get(&self) -> StringName {
-		self.0.clone()
+		self.string_name.clone()
+	}
+
+	pub fn as_str(&self) -> &'static str {
+		self.str
 	}
 }
 
