@@ -60,7 +60,7 @@ impl From<&'static str> for ConstStringName {
 
 #[macro_export]
 macro_rules! lazy_gstring {
-    ($visibility: vis $var_name: ident = $value: literal) => {
+    ($visibility: vis $var_name: ident = $value: expr) => {
 	    $visibility static $var_name: std::sync::LazyLock<$crate::prelude::ConstGString> = 
 	        std::sync::LazyLock::new(|| $crate::prelude::ConstGString::new($value)); 
     };
@@ -68,7 +68,7 @@ macro_rules! lazy_gstring {
 
 #[macro_export]
 macro_rules! lazy_stringname {
-    ($visibility: vis $var_name: ident = $value: literal) => {
+    ($visibility: vis $var_name: ident = $value: expr) => {
 	    $visibility static $var_name: std::sync::LazyLock< $crate::prelude::ConstStringName> = 
 	        std::sync::LazyLock::new(|| $crate::prelude::ConstStringName::new($value));
     };
