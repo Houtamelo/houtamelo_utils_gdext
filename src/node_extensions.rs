@@ -1,4 +1,4 @@
-use util::prelude::*;
+use anyhow::{Result, anyhow};
 use crate::prelude::*;
 
 pub trait MapNode {
@@ -36,7 +36,7 @@ impl<TSelf> MapNode for Gd<TSelf>
 				        anyhow!(
 						    "Could not cast node to type `{ty}`\n\
 						     Path: \"{path}\"\n\
-						     Error: {err}", ty = type_name::<TNode>())
+						     Error: {err}", ty = std::any::type_name::<TNode>())
 			        })
 		    })
 		    .map(|mut node| {

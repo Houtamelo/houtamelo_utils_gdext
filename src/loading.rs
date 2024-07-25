@@ -1,5 +1,5 @@
 use godot::classes::resource_loader::CacheMode;
-use util::prelude::*;
+use anyhow::{Result, anyhow};
 
 use crate::prelude::*;
 
@@ -44,7 +44,7 @@ pub fn load_resource_as<T: GodotClass + Inherits<Resource>>(path: impl Into<GStr
 		.and_then(|res| {
 			res.try_cast::<T>()
 			   .map_err(|err| {
-				   let type_name = type_name::<T>();
+				   let type_name = std::any::type_name::<T>();
 				   anyhow!(
 					   "Loaded resource is not of type {type_name}.\n\
 					    Path \"{path}\"\n\
@@ -62,7 +62,7 @@ impl SpawnAs for Gd<PackedScene> {
 	fn spawn_as<T: Inherits<Node> + GodotClass>(&self) -> Result<Gd<T>> {
 		self.try_instantiate_as()
 		    .ok_or_else(|| {
-			    let type_name = type_name::<T>();
+			    let type_name = std::any::type_name::<T>();
 			    let self_name = self.get_name();
 			    anyhow!(
 				    "Could not instantiate prefab, scene is not of type {type_name}. \n\

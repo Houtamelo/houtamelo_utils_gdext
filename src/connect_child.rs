@@ -1,6 +1,6 @@
 use godot::obj::bounds::DeclUser;
-use util::prelude::*;
 use crate::prelude::*;
+use anyhow::Result;
 
 struct UnsafeWrapper<T: GodotClass<Declarer = DeclUser>> {
 	#[allow(clippy::type_complexity)]

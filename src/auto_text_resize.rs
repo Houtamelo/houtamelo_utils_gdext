@@ -1,5 +1,3 @@
-use util::prelude::*;
-
 use crate::prelude::*;
 use crate::prelude::text_server::AutowrapMode;
 
@@ -23,15 +21,15 @@ impl ILabel for AutoTextResize {
 		if base.get_max_lines_visible() <= 0 {
 			base.set_max_lines_visible(1);
 			godot_warn!(
-				"{}: max_lines_visible is not set to a positive value. Defaulting to 1.\n\
-				 Object: {}", fn_name(&AutoTextResize::ready), base.get_name());
+				"AutoTextResize::ready(): max_lines_visible is not set to a positive value. Defaulting to 1.\n\
+				 Object: {}", base.get_name());
 		}
 
 		if base.get_autowrap_mode() == AutowrapMode::OFF {
 			base.set_autowrap_mode(AutowrapMode::WORD);
 			godot_warn!(
-				"{}: autowrap is set to OFF. Overriding to WORD.\n\
-				 Object: {}", fn_name(&AutoTextResize::ready), base.get_name());
+				"AutoTextResize::ready(): autowrap is set to OFF. Overriding to WORD.\n\
+				 Object: {}", base.get_name());
 		}
 
 		drop(base);
@@ -66,9 +64,9 @@ impl AutoTextResize {
 			self.update_font_size();
 		} else {
 			godot_warn!(
-				"{}: Failed to convert value to i64.\n\
+				"AutoTextResize::set_min_size(): Failed to convert value to i64.\n\
 				 Value: {}\n\
-				 Object: {}", fn_name(&AutoTextResize::set_min_size), value.to_string(), self.base().get_name());
+				 Object: {}", value.to_string(), self.base().get_name());
 		}
 	}
 
@@ -79,9 +77,9 @@ impl AutoTextResize {
 			self.update_font_size();
 		} else {
 			godot_warn!(
-				"{}: Failed to convert value to i64.\n\
+				"AutoTextResize::set_max_size(): Failed to convert value to i64.\n\
 				 Value: {}\n\
-				 Object: {}", fn_name(&AutoTextResize::set_max_size), value.to_string(), self.base().get_name());
+				 Object: {}", value.to_string(), self.base().get_name());
 		}
 	}
 
@@ -96,9 +94,9 @@ impl AutoTextResize {
 			self.update_font_size();
 		} else {
 			godot_warn!(
-				"{}: Failed to convert value to GodotString.\n\
+				"AutoTextResize::set_text(): Failed to convert value to GodotString.\n\
 				 Value: {}\n\
-				 Object: {}", fn_name(&AutoTextResize::set_text), value.to_string(), self.base().get_name());
+				 Object: {}", value.to_string(), self.base().get_name());
 		}
 	}
 

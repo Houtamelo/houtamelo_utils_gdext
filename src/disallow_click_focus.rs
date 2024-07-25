@@ -1,5 +1,3 @@
-use util::prelude::*;
-
 use crate::prelude::*;
 use crate::prelude::object::ConnectFlags;
 
@@ -22,7 +20,7 @@ impl INode for DisallowClickFocusOnParent {
 	fn ready(&mut self) {
 		let base = self.base();
 		let Some(mut parent) = base.get_parent()
-		else { return godot_error!("{}(): Node `{}` has no parent", full_fn_name(&Self::ready), base.get_name()) };
+		else { return godot_error!("DisallowClickFocusOnParent::ready(): Node `{}` has no parent", base.get_name()) };
 
 		let self_gd = self.to_gd();
 
@@ -39,10 +37,10 @@ impl INode for DisallowClickFocusOnParent {
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
 		} else {
-			godot_warn!("{}():\n\
+			godot_warn!("DisallowClickFocusOnParent::ready():\n\
 			 Node `{}` cannot connect to it's parent `{}`\n\
 			 Parent does not have any of these signals: `gui_input` | `pressed` | `input_event`",
-				full_fn_name(&Self::ready), base.get_name(), parent.get_name());
+				base.get_name(), parent.get_name());
 		}
 	}
 }
@@ -57,10 +55,10 @@ impl DisallowClickFocusOnParent {
 		if parent.has_method("release_focus".into()) {
 			parent.call_deferred("release_focus".into(), &[]);
 		} else {
-			godot_warn!("{}():\n\
+			godot_warn!("DisallowClickFocusOnParent::release_parent_focus():\n\
 			 Node `{}` cannot release focus from it's parent `{}`\n\
 			 Parent does not have method `release_focus`",
-				full_fn_name(&Self::_on_gui_input), base.get_name(), parent.get_name());
+				base.get_name(), parent.get_name());
 		}
 	}
 

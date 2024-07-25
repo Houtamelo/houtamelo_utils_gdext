@@ -2,7 +2,6 @@ use godot::classes::object::ConnectFlags;
 use rand::Rng;
 use rand_xoshiro::rand_core::SeedableRng;
 use rand_xoshiro::Xoshiro256PlusPlus;
-use util::prelude::*;
 
 use crate::prelude::*;
 
@@ -39,20 +38,20 @@ impl IAudioStreamPlayer2D for PlayOnClickAndPitchRandomizer {
 		let base = self.base();
 
 		let Some(mut parent) = base.get_parent()
-		else { return godot_error!("{}(): Node `{}` has no parent", full_fn_name(&Self::ready), base.get_name()) };
+		else { return godot_error!("PlayOnClickAndPitchRandomizer::ready(): Node `{}` has no parent", base.get_name()) };
 
 		let self_gd = self.to_gd();
 
 		if parent.has_signal("pressed".into()) {
-			parent.connect_ex("pressed".into(), Callable::from_object_method(&self_gd, fn_name(&Self::_on_pressed)))
+			parent.connect_ex("pressed".into(), Callable::from_object_method(&self_gd, "_on_pressed"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
 		} else if parent.has_signal("gui_input".into()) {
-			parent.connect_ex("gui_input".into(), Callable::from_object_method(&self_gd, fn_name(&Self::_on_gui_input)))
+			parent.connect_ex("gui_input".into(), Callable::from_object_method(&self_gd, "_on_gui_input"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
 		} else if parent.has_signal("input_event".into()) {
-			parent.connect_ex("input_event".into(), Callable::from_object_method(&self_gd, fn_name(&Self::_on_input_event)))
+			parent.connect_ex("input_event".into(), Callable::from_object_method(&self_gd, "_on_input_event"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
 		} else {
