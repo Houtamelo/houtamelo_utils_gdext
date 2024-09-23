@@ -21,15 +21,9 @@ impl IAudioStreamPlayer2D for PlayOnClickAndPitchRandomizer {
 			base.create_tween()
 			    .unwrap();
 
-		tween.tween_property(
-			{
-				#[cfg(not(feature = "temp_gdext_patch"))]
-				{ base.clone().upcast() }
-				#[cfg(feature = "temp_gdext_patch")] 
-				{ base.clone() }
-			},
+		tween.tween_property(base.clone(),
 			NodePath::from("position"),
-			Variant::from(Vector2::new(50., 50.)),
+			&Variant::from(Vector2::new(50., 50.)),
 			0.5,
 		)
 		     .unwrap()

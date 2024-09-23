@@ -1,6 +1,6 @@
 [package]
 name = "houtamelo_utils_gdext"
-version = "0.1.9"
+version = "0.2.0"
 authors = ["Houtamelo"]
 edition = "2021"
 description = "A collection of utilities shared between Houtamelo's GDExtension projects."
@@ -11,11 +11,7 @@ repository = "https://github.com/Houtamelo/houtamelo_utils_gdext"
 crate-type = ["lib", "cdylib"]
 
 [dependencies]
-godot = "0.1"
+godot = { package = "godot", git = "https://github.com/godot-rust/gdext" }
 rand = "0.8"
 rand_xoshiro = "0.6"
 anyhow = "1.0"
-
-[features]
-default = []
-temp_gdext_patch = []

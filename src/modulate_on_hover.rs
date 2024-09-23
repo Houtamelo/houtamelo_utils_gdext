@@ -5,10 +5,10 @@ use crate::prelude::*;
 pub struct ModulateOnHover {
 	base: Base<Control>,
 	#[export]
-	#[init(default = Color::from_rgb(0.5, 0.5, 0.5))]
+	#[init(val = Color::from_rgb(0.5, 0.5, 0.5))]
 	normal_color: Color,
 	#[export]
-	#[init(default = Color::from_rgb(1.0, 1.0, 1.0))]
+	#[init(val = Color::from_rgb(1.0, 1.0, 1.0))]
 	hover_color: Color,
 }
 
