@@ -1,6 +1,6 @@
 use anyhow::{Result, anyhow};
 use godot::meta::AsArg;
-use crate::prelude::*;
+use crate::internal::*;
 
 pub trait MapNode {
 	fn map_node<TNode, TMap>(

@@ -1,5 +1,5 @@
-use crate::prelude::*;
-use crate::prelude::text_server::AutowrapMode;
+use text_server::AutowrapMode;
+use crate::internal::*;
 
 #[derive(GodotClass)]
 #[class(init, base = Label)]

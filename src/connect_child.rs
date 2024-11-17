@@ -2,6 +2,7 @@ use godot::obj::bounds::DeclUser;
 use crate::prelude::*;
 use anyhow::Result;
 use godot::meta::AsArg;
+use crate::internal::*;
 
 struct UnsafeWrapper<T: GodotClass<Declarer = DeclUser>> {
 	#[allow(clippy::type_complexity)]

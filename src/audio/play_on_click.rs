@@ -3,7 +3,7 @@ use rand::Rng;
 use rand_xoshiro::rand_core::SeedableRng;
 use rand_xoshiro::Xoshiro256PlusPlus;
 
-use crate::prelude::*;
+use crate::internal::*;
 
 #[derive(GodotClass)]
 #[class(init, base = AudioStreamPlayer2D)]

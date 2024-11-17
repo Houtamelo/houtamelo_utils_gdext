@@ -1,4 +1,5 @@
 use crate::prelude::*;
+use crate::internal::*;
 
 #[derive(GodotClass)]
 #[class(init, base = Control)]

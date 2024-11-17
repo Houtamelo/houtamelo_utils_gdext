@@ -1,5 +1,5 @@
-use crate::prelude::*;
-use crate::prelude::object::ConnectFlags;
+use object::ConnectFlags;
+use crate::internal::*;
 
 #[derive(GodotClass)]
 #[class(init, base = Node)]

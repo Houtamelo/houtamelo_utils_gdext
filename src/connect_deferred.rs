@@ -1,5 +1,5 @@
 use godot::meta::AsArg;
-use crate::prelude::*;
+use crate::internal::*;
 
 #[allow(clippy::type_complexity)]
 struct UnsafeFn(Box<dyn FnMut(&[&Variant]) + 'static>);

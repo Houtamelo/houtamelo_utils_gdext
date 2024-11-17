@@ -11,10 +11,6 @@ mod modulate_on_hover;
 mod log_if_err;
 
 pub mod prelude {
-	pub use godot::classes::*;
-	pub use godot::classes::object::ConnectFlags;
-	pub use godot::prelude::*;
-
 	pub use crate::audio::*;
 	pub use crate::auto_text_resize::*;
 	pub use crate::disallow_click_focus::*;
@@ -27,4 +23,10 @@ pub mod prelude {
 	pub use crate::{lazy_gstring, lazy_stringname};
 	pub use crate::log_if_err::LogIfErr;
 	pub use crate::modulate_on_hover::ModulateOnHover;
+}
+
+mod internal {
+	pub(crate) use godot::classes::*;
+	pub(crate) use godot::classes::object::ConnectFlags;
+	pub(crate) use godot::prelude::*;
 }

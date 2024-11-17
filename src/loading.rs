@@ -1,7 +1,7 @@
 use godot::classes::resource_loader::CacheMode;
 use anyhow::{Result, anyhow};
 use godot::meta::AsArg;
-use crate::prelude::*;
+use crate::internal::*;
 
 pub fn load_prefab(path: impl AsArg<GString>) -> Result<Gd<PackedScene>> {
 	let path = path.into_arg();
