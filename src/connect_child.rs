@@ -1,6 +1,7 @@
 use godot::obj::bounds::DeclUser;
 use crate::prelude::*;
 use anyhow::Result;
+use godot::meta::AsArg;
 
 struct UnsafeWrapper<T: GodotClass<Declarer = DeclUser>> {
 	#[allow(clippy::type_complexity)]
@@ -26,8 +27,8 @@ impl<T> UnsafeWrapper<T>
 pub trait ConnectChild: Sized {
 	fn connect_child(
 		&mut self,
-		child_path: impl Into<NodePath>,
-		signal: impl Into<StringName>,
+		child_path: impl AsArg<NodePath>,
+		signal: impl AsArg<StringName>,
 		callable: impl FnMut(&mut Self, &[&Variant]) + 'static,
 	) -> Result<()>;
 }
@@ -39,12 +40,10 @@ impl<T> ConnectChild for T
 {
 	fn connect_child(
 		&mut self,
-		child_path: impl Into<NodePath>,
-		signal: impl Into<StringName>,
+		child_path: impl AsArg<NodePath>,
+		signal: impl AsArg<StringName>,
 		f: impl FnMut(&mut T, &[&Variant]) + 'static,
 	) -> Result<()> {
-		let signal = signal.into();
-		
 		let node = self.to_gd();
 		
 		let mut wrapper = UnsafeWrapper { f: Box::new(f), node: node.clone() };
@@ -59,7 +58,7 @@ impl<T> ConnectChild for T
 		node.map_node(
 			child_path,
 			|child: &mut Gd<Node>| {
-				child.connect_ex(signal, callable)
+				child.connect_ex(signal, &callable)
 				     .flags(ConnectFlags::DEFERRED.ord() as u32)
 				     .done();
 			})

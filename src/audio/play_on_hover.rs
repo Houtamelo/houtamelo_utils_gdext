@@ -25,8 +25,8 @@ impl IAudioStreamPlayer2D for PlayOnHoverAndPitchRandomizer {
 					self.base().get_name())
 		};
 
-		if parent.has_signal("mouse_entered".into()) {
-			parent.connect_ex("mouse_entered".into(), Callable::from_object_method(&self_gd, "_play_custom"))
+		if parent.has_signal("mouse_entered") {
+			parent.connect_ex("mouse_entered", &Callable::from_object_method(&self_gd, "_play_custom"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
 		} else {
@@ -36,8 +36,8 @@ impl IAudioStreamPlayer2D for PlayOnHoverAndPitchRandomizer {
 				self.base().get_name(), parent.get_name());
 		}
 
-		if parent.has_signal("focus_entered".into()) {
-			parent.connect_ex("focus_entered".into(), Callable::from_object_method(&self_gd, "_play_custom"))
+		if parent.has_signal("focus_entered") {
+			parent.connect_ex("focus_entered", &Callable::from_object_method(&self_gd, "_play_custom"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
 		}

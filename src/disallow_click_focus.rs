@@ -24,16 +24,16 @@ impl INode for DisallowClickFocusOnParent {
 
 		let self_gd = self.to_gd();
 
-		if parent.has_signal("pressed".into()) {
-			parent.connect_ex("pressed".into(), Callable::from_object_method(&self_gd, "_on_pressed"))
+		if parent.has_signal("pressed") {
+			parent.connect_ex("pressed", &Callable::from_object_method(&self_gd, "_on_pressed"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
-		} else if parent.has_signal("gui_input".into()) {
-			parent.connect_ex("gui_input".into(), Callable::from_object_method(&self_gd, "_on_gui_input"))
+		} else if parent.has_signal("gui_input") {
+			parent.connect_ex("gui_input", &Callable::from_object_method(&self_gd, "_on_gui_input"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
-		} else if parent.has_signal("input_event".into()) {
-			parent.connect_ex("input_event".into(), Callable::from_object_method(&self_gd, "_on_input_event"))
+		} else if parent.has_signal("input_event") {
+			parent.connect_ex("input_event", &Callable::from_object_method(&self_gd, "_on_input_event"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
 		} else {
@@ -52,8 +52,8 @@ impl DisallowClickFocusOnParent {
 		let Some(mut parent) = base.get_parent()
 		else { return };
 
-		if parent.has_method("release_focus".into()) {
-			parent.call_deferred("release_focus".into(), &[]);
+		if parent.has_method("release_focus") {
+			parent.call_deferred("release_focus", &[]);
 		} else {
 			godot_warn!("DisallowClickFocusOnParent::release_parent_focus():\n\
 			 Node `{}` cannot release focus from it's parent `{}`\n\

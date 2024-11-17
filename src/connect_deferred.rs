@@ -1,3 +1,4 @@
+use godot::meta::AsArg;
 use crate::prelude::*;
 
 #[allow(clippy::type_complexity)]
@@ -27,7 +28,7 @@ impl From<UnsafeFn> for Callable {
 pub trait ConnectDeferred {
 	fn connect_deferred(
 		&mut self,
-		signal: impl Into<StringName>,
+		signal: impl AsArg<StringName>,
 		f: impl FnMut(&[&Variant]) + 'static,
 	);
 }
@@ -36,14 +37,14 @@ pub trait ConnectDeferred {
 impl<T: GodotClass + Inherits<Object>> ConnectDeferred for Gd<T> {
 	fn connect_deferred(
 		&mut self,
-		signal: impl Into<StringName>,
+		signal: impl AsArg<StringName>,
 		f: impl FnMut(&[&Variant]) + 'static,
 	) {
-		let signal = signal.into();
 		let unsafe_fn = UnsafeFn(Box::new(f));
+		let callable = Callable::from(unsafe_fn);
 
 		self.upcast_mut()
-		    .connect_ex(signal, unsafe_fn.into())
+		    .connect_ex(signal, &callable)
 		    .flags(ConnectFlags::DEFERRED.ord() as u32)
 		    .done();
 	}

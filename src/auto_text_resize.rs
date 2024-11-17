@@ -87,7 +87,7 @@ impl AutoTextResize {
 	fn set_text(&mut self, value: Variant) {
 		if let Ok(text) = value.try_to::<GString>() {
 			let mut base = self.base_mut();
-			base.set_text(text);
+			base.set_text(&text);
 			base.set_clip_text(true);
 			drop(base);
 
@@ -105,7 +105,7 @@ impl AutoTextResize {
 		let max_size = self.max_size;
 
 		let mut base = self.base_mut();
-		base.add_theme_font_size_override("font_size".into(), max_size);
+		base.add_theme_font_size_override("font_size", max_size);
 
 		let mut font_size = max_size;
 
@@ -113,7 +113,7 @@ impl AutoTextResize {
 			&& font_size > min_size
 		{
 			font_size -= 1;
-			base.add_theme_font_size_override("font_size".into(), font_size);
+			base.add_theme_font_size_override("font_size", font_size);
 		}
 	}
 }

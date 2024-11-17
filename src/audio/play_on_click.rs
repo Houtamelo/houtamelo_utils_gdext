@@ -17,18 +17,16 @@ impl IAudioStreamPlayer2D for PlayOnClickAndPitchRandomizer {
 	fn ready(&mut self) {
 		let mut base = self.base_mut();
 
-		let mut tween =
-			base.create_tween()
-			    .unwrap();
+		let mut tween = base.create_tween().unwrap();
 
-		tween.tween_property(base.clone(),
-			NodePath::from("position"),
+		tween.tween_property(&base.to_godot(),
+			"position",
 			&Variant::from(Vector2::new(50., 50.)),
 			0.5,
 		)
 		     .unwrap()
-		     .connect("finished".into(), base.callable("random_func"));
-
+		     .connect("finished", &base.callable("random_func"));
+		
 		let initial_pitch = base.get_pitch_scale();
 		drop(base);
 
@@ -41,16 +39,16 @@ impl IAudioStreamPlayer2D for PlayOnClickAndPitchRandomizer {
 
 		let self_gd = self.to_gd();
 
-		if parent.has_signal("pressed".into()) {
-			parent.connect_ex("pressed".into(), Callable::from_object_method(&self_gd, "_on_pressed"))
+		if parent.has_signal("pressed") {
+			parent.connect_ex("pressed", &Callable::from_object_method(&self_gd, "_on_pressed"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
-		} else if parent.has_signal("gui_input".into()) {
-			parent.connect_ex("gui_input".into(), Callable::from_object_method(&self_gd, "_on_gui_input"))
+		} else if parent.has_signal("gui_input") {
+			parent.connect_ex("gui_input", &Callable::from_object_method(&self_gd, "_on_gui_input"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
-		} else if parent.has_signal("input_event".into()) {
-			parent.connect_ex("input_event".into(), Callable::from_object_method(&self_gd, "_on_input_event"))
+		} else if parent.has_signal("input_event") {
+			parent.connect_ex("input_event", &Callable::from_object_method(&self_gd, "_on_input_event"))
 			      .flags(ConnectFlags::DEFERRED.ord() as u32)
 			      .done();
 		} else {
@@ -63,7 +61,7 @@ impl IAudioStreamPlayer2D for PlayOnClickAndPitchRandomizer {
 }
 
 fn is_confirm_input(event: Gd<InputEvent>) -> bool {
-	event.is_action_pressed("ui_accept".into())
+	event.is_action_pressed("ui_accept")
 		||
 		event.try_cast::<InputEventMouseButton>()
 		     .ok()
