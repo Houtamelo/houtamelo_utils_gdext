@@ -1,4 +1,6 @@
+use godot::meta::AsArg;
 use crate::internal::*;
+use crate::internal::class_macros::meta::ParamType;
 
 pub struct ConstGString {
 	gstring: GString,
@@ -29,9 +31,106 @@ impl From<&'static str> for ConstGString {
 	}
 }
 
+impl AsArg<StringName> for ConstGString {
+	fn into_arg<'r>(self) -> <StringName as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<StringName>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<StringName> for &ConstGString {
+	fn into_arg<'r>(self) -> <StringName as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<StringName>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<GString> for ConstGString {
+	fn into_arg<'r>(self) -> <GString as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<GString>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<GString> for &ConstGString {
+	fn into_arg<'r>(self) -> <GString as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<GString>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<NodePath> for ConstGString {
+	fn into_arg<'r>(self) -> <NodePath as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<NodePath>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<NodePath> for &ConstGString {
+	fn into_arg<'r>(self) -> <NodePath as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<NodePath>>::into_arg(self.str)
+	}
+}
+
 pub struct ConstStringName {
 	string_name: StringName,
 	str: &'static str,
+}
+
+impl AsArg<StringName> for ConstStringName {
+	fn into_arg<'r>(self) -> <StringName as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<StringName>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<GString> for ConstStringName {
+	fn into_arg<'r>(self) -> <GString as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<GString>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<NodePath> for ConstStringName {
+	fn into_arg<'r>(self) -> <NodePath as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<NodePath>>::into_arg(self.str)
+	}
+}
+
+
+impl AsArg<StringName> for &ConstStringName {
+	fn into_arg<'r>(self) -> <StringName as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<StringName>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<GString> for &ConstStringName {
+	fn into_arg<'r>(self) -> <GString as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<GString>>::into_arg(self.str)
+	}
+}
+
+impl AsArg<NodePath> for &ConstStringName {
+	fn into_arg<'r>(self) -> <NodePath as ParamType>::Arg<'r>
+		where Self: 'r
+	{
+		<&str as AsArg<NodePath>>::into_arg(self.str)
+	}
 }
 
 unsafe impl Send for ConstStringName {}
