@@ -1,32 +1,41 @@
-mod disallow_click_focus;
 mod audio;
 mod auto_text_resize;
-mod loading;
-mod connect_deferred;
-mod connect_child;
-mod connect_with_deferred;
-mod node_extensions;
+mod connect;
+mod disallow_click_focus;
 mod lazy_string;
-mod modulate_on_hover;
+mod loading;
 mod log_if_err;
+mod modulate_on_hover;
+mod node_extensions;
+mod required_gd;
+mod try_var_at;
 
 pub mod prelude {
-	pub use crate::audio::*;
-	pub use crate::auto_text_resize::*;
-	pub use crate::disallow_click_focus::*;
-	pub use crate::loading::*;
-	pub use crate::node_extensions::*;
-	pub use crate::connect_deferred::ConnectDeferred;
-	pub use crate::connect_child::ConnectChild;
-	pub use crate::connect_with_deferred::ConnectWithDeferred;
-	pub use crate::lazy_string::{ConstStringName, ConstGString};
-	pub use crate::{lazy_gstring, lazy_stringname};
-	pub use crate::log_if_err::LogIfErr;
-	pub use crate::modulate_on_hover::ModulateOnHover;
+	pub use crate::{
+		audio::*,
+		auto_text_resize::*,
+		connect::{
+			connect_child::ConnectChild,
+			connect_deferred::ConnectDeferred,
+			connect_with_deferred::ConnectWithDeferred,
+		},
+		disallow_click_focus::*,
+		lazy_gstring,
+		lazy_string::{ConstGString, ConstStringName},
+		lazy_stringname,
+		loading::*,
+		log_if_err::{LogIfErr, OkLogErr},
+		modulate_on_hover::ModulateOnHover,
+		node_extensions::*,
+		required_gd::*,
+		try_var_at::*,
+	};
 }
 
 mod internal {
-	pub(crate) use godot::classes::*;
-	pub(crate) use godot::classes::object::ConnectFlags;
-	pub(crate) use godot::prelude::*;
+	pub(crate) use godot::{
+		classes::{object::ConnectFlags, *},
+		global::Error as GodotError,
+		prelude::*,
+	};
 }
