@@ -1,5 +1,3 @@
-use crate::internal::*;
-
 use std::{
 	backtrace::Backtrace,
 	fmt::{Debug, Formatter},
@@ -12,6 +10,7 @@ use godot::{
 	obj::{Bounds, bounds},
 };
 
+use crate::internal::*;
 
 pub struct RequiredGd<T: GodotClass> {
 	gd: Option<Gd<T>>,
@@ -19,6 +18,8 @@ pub struct RequiredGd<T: GodotClass> {
 
 impl<T: GodotClass> RequiredGd<T> {
 	pub fn new(gd: Gd<T>) -> Self { Self { gd: Some(gd) } }
+	pub fn is_init(&self) -> bool { self.gd.is_some() }
+	pub fn maybe_init(&self) -> Option<Gd<T>> { self.gd.clone() }
 }
 
 impl<T: GodotClass> Clone for RequiredGd<T> {
