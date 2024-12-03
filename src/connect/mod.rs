@@ -26,18 +26,20 @@ where T: GodotClass<Declarer = DeclUser>
 }
 
 #[allow(clippy::type_complexity)]
-struct UnsafeFn(Box<dyn FnMut(&[&Variant]) + 'static>);
+pub struct UnsafeCallable(Box<dyn FnMut(&[&Variant]) + 'static>);
 
-impl UnsafeFn {
+impl UnsafeCallable {
+	pub fn new(f: impl FnMut(&[&Variant]) + 'static) -> Self { Self(Box::new(f)) }
+
 	fn invoke(&mut self, args: &[&Variant]) { self.0(args); }
 }
 
-unsafe impl Send for UnsafeFn {}
+unsafe impl Send for UnsafeCallable {}
 
-unsafe impl Sync for UnsafeFn {}
+unsafe impl Sync for UnsafeCallable {}
 
-impl From<UnsafeFn> for Callable {
-	fn from(mut value: UnsafeFn) -> Self {
+impl From<UnsafeCallable> for Callable {
+	fn from(mut value: UnsafeCallable) -> Self {
 		Callable::from_fn("lambda", move |args| {
 			value.invoke(args);
 			Ok(Variant::nil())

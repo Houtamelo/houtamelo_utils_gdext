@@ -19,6 +19,7 @@ pub mod prelude {
 		audio::*,
 		auto_text_resize::*,
 		connect::{
+			UnsafeCallable,
 			connect_child::ConnectChild,
 			connect_deferred::ConnectDeferred,
 			connect_with_deferred::ConnectWithDeferred,
