@@ -8,6 +8,7 @@ mod enums;
 mod lazy_string;
 mod loading;
 mod log_if_err;
+mod macro_match;
 mod modulate_on_hover;
 mod node_extensions;
 mod required_gd;
@@ -32,6 +33,8 @@ pub mod prelude {
 		lazy_stringname,
 		loading::*,
 		log_if_err::{LogIfErr, OkLogErr},
+		match_gd,
+		match_var,
 		modulate_on_hover::ModulateOnHover,
 		node_extensions::*,
 		required_gd::*,

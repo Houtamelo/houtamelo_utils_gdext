@@ -38,7 +38,7 @@ where T: GodotClass<Declarer = DeclUser> + Inherits<Node> + WithBaseField
 			node: self_node.clone(),
 		};
 
-		let callable = Callable::from_fn("lambda", move |args| {
+		let callable = Callable::from_sync_fn("lambda", move |args| {
 			wrapper.invoke(args);
 			Ok(Variant::nil())
 		});
