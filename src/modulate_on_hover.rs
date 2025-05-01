@@ -13,12 +13,6 @@ pub struct ModulateOnHover {
 }
 
 #[godot_api]
-impl ModulateOnHover {
-    #[signal]
-    fn unused();
-}
-
-#[godot_api]
 impl IControl for ModulateOnHover {
     fn ready(&mut self) {
         self.signals()
@@ -36,3 +30,6 @@ impl IControl for ModulateOnHover {
             });
     }
 }
+
+#[godot_api]
+impl ModulateOnHover {}
