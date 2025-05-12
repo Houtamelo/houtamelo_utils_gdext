@@ -17,4 +17,4 @@ rand_xoshiro = "0.6"
 anyhow = "1.0"
 
 [patch.crates-io]
-godot = { git = "https://github.com/godot-rust/gdext.git" }
+godot = { git = "https://github.com/Houtamelo/dead_gds_have_rights" }

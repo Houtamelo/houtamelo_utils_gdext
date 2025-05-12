@@ -2,7 +2,6 @@
 
 mod audio;
 mod auto_text_resize;
-mod connect_deferred;
 mod disallow_click_focus;
 mod enums;
 mod lazy_string;
@@ -20,7 +19,6 @@ pub mod prelude {
     pub use crate::{
         audio::*,
         auto_text_resize::*,
-        connect_deferred::ConnectDeferred,
         define_gdscript_rust_enum,
         disallow_click_focus::*,
         export_rust_enum,
