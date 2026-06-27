@@ -17,7 +17,6 @@ impl From<UnsafeCallable> for Callable {
     fn from(mut value: UnsafeCallable) -> Self {
         Callable::from_sync_fn("lambda", move |args| {
             value.invoke(args);
-            Ok(Variant::nil())
         })
     }
 }

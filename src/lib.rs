@@ -1,9 +1,6 @@
-#![feature(macro_metavar_expr_concat)]
-
 mod audio;
 mod auto_text_resize;
 mod disallow_click_focus;
-mod enums;
 mod lazy_string;
 mod loading;
 mod log_if_err;
@@ -19,9 +16,7 @@ pub mod prelude {
     pub use crate::{
         audio::*,
         auto_text_resize::*,
-        define_gdscript_rust_enum,
         disallow_click_focus::*,
-        export_rust_enum,
         lazy_gstring,
         lazy_string::{ConstGString, ConstStringName},
         lazy_stringname,

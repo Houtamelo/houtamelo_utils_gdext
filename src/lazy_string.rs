@@ -1,4 +1,4 @@
-use godot::meta::*;
+use godot::{classes::class_macros::meta::CowArg, meta::*};
 
 use crate::internal::*;
 
