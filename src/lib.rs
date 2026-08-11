@@ -1,3 +1,6 @@
+#![allow(semicolon_in_expressions_from_non_local_macros)]
+#![allow(clippy::redundant_field_names)]
+
 mod audio;
 mod auto_text_resize;
 mod disallow_click_focus;

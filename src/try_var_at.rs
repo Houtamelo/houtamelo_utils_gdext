@@ -6,10 +6,10 @@ pub trait TryVarAt<Key> {
     fn try_var_at<Var: FromGodot>(&self, key: Key) -> Result<Var>;
 }
 
-impl<Key: ToGodot + std::fmt::Debug> TryVarAt<&Key> for VarDictionary {
-    fn try_var_at<Var: FromGodot>(&self, key: &Key) -> Result<Var> {
-        let var = key.to_variant();
-        self.get(&var)
+impl<Key: ToGodot + std::fmt::Debug> TryVarAt<Key> for VarDictionary {
+    fn try_var_at<Var: FromGodot>(&self, key: Key) -> Result<Var> {
+        let key = key.to_variant();
+        self.get(&key)
             .ok_or_else(|| anyhow!("Dictionary does not contain key \"{key:?}\""))
             .and_then(|val| {
                 val.try_to::<Var>().map_err(|err| {
