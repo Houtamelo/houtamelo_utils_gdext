@@ -1,6 +1,6 @@
 [package]
 name = "houtamelo_utils_gdext"
-version = "0.8.0"
+version = "0.9.0"
 authors = ["Houtamelo"]
 edition = "2024"
 description = "A collection of utilities shared between Houtamelo's GDExtension projects."
