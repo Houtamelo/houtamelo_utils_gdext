@@ -1,4 +1,4 @@
-use anyhow::{Result, anyhow};
+use anyhow::{Result, anyhow, bail};
 use godot::{classes::resource_loader::CacheMode, meta::AsArg};
 
 use crate::internal::*;
@@ -47,10 +47,22 @@ pub trait SpawnAs {
 
 impl SpawnAs for Gd<PackedScene> {
     fn spawn_as<T: Inherits<Node> + GodotClass>(&self) -> Result<Gd<T>> {
-        self.try_instantiate_as::<T>().ok_or_else(|| {
-            let type_name = std::any::type_name::<T>();
-            let self_name = self.get_name();
-            anyhow!("Could not instantiate prefab, scene is not of type {type_name}. \nScene name: {self_name}")
-        })
+        let node = self
+            .instantiate()
+            .ok_or_else(|| anyhow!("Scene instantiation failed, path=\"{}\"", self.get_path()))?;
+
+        match node.try_cast::<T>() {
+            Ok(t) => Ok(t),
+            Err(mut node) => {
+                let class = node.get_class();
+                node.queue_free();
+                bail!(
+                    "Scene instantiation succeed, but node is not of expected type=`{}`, actual type=`{}`, path=\"{}\"",
+                    std::any::type_name::<T>(),
+                    class,
+                    self.get_path()
+                )
+            }
+        }
     }
 }
