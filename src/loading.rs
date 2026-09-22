@@ -3,6 +3,7 @@ use godot::{classes::resource_loader::CacheMode, meta::AsArg};
 
 use crate::internal::*;
 
+#[track_caller]
 pub fn load_prefab(path: impl AsArg<GString>) -> Result<Gd<PackedScene>> {
     let path = path.into_arg();
     let path_ref = path.cow_as_ref();
@@ -19,10 +20,12 @@ pub fn load_prefab(path: impl AsArg<GString>) -> Result<Gd<PackedScene>> {
         })
 }
 
+#[track_caller]
 pub fn spawn_prefab_as<T: GodotClass + Inherits<Node>>(path: impl AsArg<GString>) -> Result<Gd<T>> {
     load_prefab(path)?.spawn_as::<T>()
 }
 
+#[track_caller]
 pub fn load_resource_as<T: GodotClass + Inherits<Resource>>(path: impl AsArg<GString>) -> Result<Gd<T>> {
     let path = path.into_arg();
     let path_ref = path.cow_as_ref();
@@ -46,6 +49,7 @@ pub trait SpawnAs {
 }
 
 impl SpawnAs for Gd<PackedScene> {
+    #[track_caller]
     fn spawn_as<T: Inherits<Node> + GodotClass>(&self) -> Result<Gd<T>> {
         let node = self
             .instantiate()

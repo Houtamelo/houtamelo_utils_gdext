@@ -7,6 +7,7 @@ pub trait TryVarAt<Key> {
 }
 
 impl<Key: ToGodot + std::fmt::Debug> TryVarAt<Key> for VarDictionary {
+    #[track_caller]
     fn try_var_at<Var: FromGodot>(&self, key: Key) -> Result<Var> {
         let key = key.to_variant();
         self.get(&key)
@@ -24,6 +25,7 @@ impl<Key: ToGodot + std::fmt::Debug> TryVarAt<Key> for VarDictionary {
 }
 
 impl TryVarAt<usize> for VarArray {
+    #[track_caller]
     fn try_var_at<Var: FromGodot>(&self, index: usize) -> Result<Var> {
         self.get(index)
             .ok_or_else(|| anyhow!("Index `{index}` is out of bounds. Array length: `{}`", self.len()))
@@ -40,6 +42,7 @@ impl TryVarAt<usize> for VarArray {
 }
 
 impl TryVarAt<usize> for &[Variant] {
+    #[track_caller]
     fn try_var_at<Var: FromGodot>(&self, index: usize) -> Result<Var> {
         self.get(index)
             .ok_or_else(|| anyhow!("Index `{index}` is out of bounds. Array length: `{}`", self.len()))
@@ -56,6 +59,7 @@ impl TryVarAt<usize> for &[Variant] {
 }
 
 impl TryVarAt<usize> for &[&Variant] {
+    #[track_caller]
     fn try_var_at<Var: FromGodot>(&self, index: usize) -> Result<Var> {
         self.get(index)
             .ok_or_else(|| anyhow!("Index `{index}` is out of bounds. Array length: `{}`", self.len()))

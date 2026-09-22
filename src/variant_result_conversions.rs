@@ -2,10 +2,12 @@ use anyhow::{Result, bail};
 
 use crate::internal::*;
 
+#[track_caller]
 pub fn are_gds_equal<A: GodotClass, B: GodotClass>(a: &Gd<A>, b: &Gd<B>) -> bool {
     a.instance_id_unchecked() == b.instance_id_unchecked()
 }
 
+#[track_caller]
 pub fn variant_as_result<T: FromGodot>(variant: Variant) -> Result<T> {
     if let Ok(ok) = variant.try_to::<T>() { Ok(ok) } else { bail!("{variant:?}") }
 }
